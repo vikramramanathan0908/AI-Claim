@@ -1,0 +1,42 @@
+PRIOR AUTHORIZATION RULES — Blue Shield Insurance
+Version: 2024.1
+Effective: January 1, 2024
+
+PURPOSE
+Prior authorization (prior auth) is required for certain procedures before they are performed. A claim for a procedure that requires prior auth but has no valid auth number on file must be denied. No exceptions.
+
+PROCEDURES REQUIRING PRIOR AUTHORIZATION
+The following procedure codes require prior authorization for any dollar amount:
+
+- 27447: Total Knee Arthroplasty — prior auth required
+- 27446: Hemi Knee Arthroplasty — prior auth required
+- 22630: Lumbar Posterior Interbody Arthrodesis — prior auth required
+- 22632: Lumbar Posterior Interbody Arthrodesis additional level — prior auth required (same auth as 22630)
+- Any procedure with billed amount exceeding $10,000 requires prior auth regardless of procedure type
+
+PROCEDURES NOT REQUIRING PRIOR AUTHORIZATION
+- 99213: Office visit — no prior auth required
+- 99214: Office visit — no prior auth required
+- 71046: Chest X-Ray — no prior auth required
+- Emergency procedures: If claim is billed under emergency status and the nature of the service is consistent with emergency care, prior auth requirement is waived. Surgical procedures like 27447 are not emergency procedures.
+
+HOW PRIOR AUTH IS VERIFIED ON A CLAIM
+- The EDI 837 claim must contain a REF segment with qualifier 9F followed by the authorization number.
+- Authorization numbers follow the format: AUTH-YYYY-NNNN (e.g., AUTH-2024-7821)
+- Auth numbers are verified against the authorization system before claim processing
+- An auth number present on the claim but not matching any issued authorization is treated as missing auth
+
+AUTH VERIFICATION RULES
+- Auth must be for the specific procedure code billed
+- Auth must be for the specific patient member ID on the claim
+- Auth must cover the date of service on the claim
+- Auth must be issued by Blue Shield Insurance (not another carrier)
+
+DENIAL LANGUAGE FOR MISSING AUTH
+When a claim is denied for missing prior authorization, the denial reason must state:
+"Claim denied: Prior authorization is required for procedure [CODE] and no valid authorization number was present on the submitted claim. To appeal, submit the procedure with a valid prior authorization number obtained before the date of service."
+
+SPECIAL NOTES
+- Retroactive authorization requests are not accepted for surgical procedures.
+- A claim with a fake or invalid auth number format is treated the same as no auth.
+- Auth requirement is not waived by provider agreement, patient urgency, or billing error claims.

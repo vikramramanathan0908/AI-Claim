@@ -1,0 +1,57 @@
+FEE SCHEDULE — Blue Shield Insurance Contracted Rates
+Version: 2024.1
+Effective: January 1, 2024
+
+PURPOSE
+These are the contracted reimbursement rates negotiated between Blue Shield Insurance and network providers. Payment is calculated based on contracted rate, not billed amount. The contracted rate is the allowed amount before deductible and coinsurance calculations.
+
+ORTHOPEDIC PROCEDURES
+
+Procedure 27447 — Total Knee Arthroplasty
+- Contracted rate (Valley Orthopedic Center, NPI 1234567893): $7,200.00
+- Contracted rate (out-of-network providers): Not applicable — not covered
+
+Procedure 27446 — Hemi Knee Arthroplasty
+- Contracted rate (Valley Orthopedic Center, NPI 1234567893): $5,400.00
+
+SPINAL PROCEDURES
+
+Procedure 22630 — Lumbar Posterior Interbody Arthrodesis (primary)
+- Contracted rate (Regional Spine Center, NPI 2345678904): $36,000.00
+
+Procedure 22632 — Lumbar Posterior Interbody Arthrodesis (additional level)
+- Contracted rate (Regional Spine Center, NPI 2345678904): $8,500.00
+- Note: Only payable when billed with 22630
+
+OFFICE VISITS
+
+Procedure 99213 — Office Visit, Established Patient, Moderate Complexity
+- Contracted rate (all network providers): $120.00
+
+Procedure 99214 — Office Visit, Established Patient, High Complexity
+- Contracted rate (all network providers): $185.00
+
+RADIOLOGY
+
+Procedure 71046 — Chest X-Ray, 2 Views
+- Contracted rate (all network providers): $95.00
+
+PAYMENT CALCULATION EXAMPLE
+Claim: 27447 at Valley Orthopedic Center
+Billed amount: $8,500.00
+Contracted rate (allowed amount): $7,200.00
+Assumed deductible already met for year: $0 remaining
+Coinsurance: Plan pays 80%, Member pays 20%
+Plan payment: $7,200.00 x 0.80 = $5,760.00
+Member payment: $7,200.00 x 0.20 = $1,440.00
+
+PAYMENT CALCULATION EXAMPLE WITH DEDUCTIBLE
+Claim: 27447 at Valley Orthopedic Center
+Billed amount: $8,500.00
+Contracted rate (allowed amount): $7,200.00
+Remaining deductible: $2,000.00
+Member pays deductible first: $2,000.00
+Remaining after deductible: $7,200.00 - $2,000.00 = $5,200.00
+Coinsurance on remainder: Plan pays 80% = $4,160.00, Member pays 20% = $1,040.00
+Total member responsibility: $2,000.00 + $1,040.00 = $3,040.00
+Total plan payment: $4,160.00

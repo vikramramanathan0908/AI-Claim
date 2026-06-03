@@ -1,0 +1,51 @@
+CLINICAL GUIDELINES — Procedure to Diagnosis Matching
+Blue Shield Insurance — Medical Policy Department
+Version: 2024.1
+Effective: January 1, 2024
+
+PURPOSE
+These guidelines define which ICD-10 diagnosis codes clinically support each covered procedure code. A procedure billed without a clinically appropriate diagnosis is considered a clinical mismatch and must be denied regardless of other factors.
+
+PROCEDURE 27447 — TOTAL KNEE ARTHROPLASTY
+Supported diagnosis codes (PASS):
+- M17.0x: Bilateral primary osteoarthritis of knee
+- M17.11: Primary osteoarthritis, right knee
+- M17.12: Primary osteoarthritis, left knee
+- M17.31: Post-traumatic osteoarthritis, right knee
+- M17.32: Post-traumatic osteoarthritis, left knee
+- M17.5: Other secondary osteoarthritis of knee
+- M17.9: Osteoarthritis of knee, unspecified
+- M25.361: Stiffness of right knee
+- M25.362: Stiffness of left knee
+
+Diagnoses that do NOT support 27447 (FAIL — automatic denial if primary diagnosis):
+- Any J-code (respiratory conditions: pneumonia, bronchitis, asthma, COPD, etc.)
+- Any cardiac codes (I-codes: heart failure, MI, arrhythmia)
+- Any metabolic codes (E-codes: diabetes, thyroid unless direct knee complication documented)
+- Any infectious codes (A-codes, B-codes) unless septic arthritis specifically documented
+- Any mental health codes (F-codes)
+
+Clinical note: J18.9 (Pneumonia, unspecified) with procedure 27447 (Total knee arthroplasty) is clinically impossible as a primary claim. Pneumonia is a pulmonary condition with no clinical pathway to knee replacement surgery. This combination indicates billing error or fraud.
+
+PROCEDURE 22630 — LUMBAR POSTERIOR INTERBODY ARTHRODESIS
+Supported diagnosis codes (PASS):
+- M43.16: Spondylolysis, lumbar region
+- M43.17: Spondylolysis, lumbosacral region
+- M51.16: Intervertebral disc degeneration, lumbar region
+- M51.17: Intervertebral disc degeneration, lumbosacral region
+- M47.816: Spondylosis with radiculopathy, lumbar region
+- M47.817: Spondylosis with radiculopathy, lumbosacral region
+- M54.4: Lumbago with sciatica
+
+Diagnoses that do NOT support 22630 (FAIL):
+- Any knee-specific codes (M17.x, M25.3x without spinal documentation)
+- Any respiratory, cardiac, metabolic conditions as primary diagnosis
+- Diagnoses limited to cervical or thoracic spine without lumbar involvement
+
+PROCEDURE 22632 — ADD-ON SPINAL FUSION LEVEL
+- Only valid as an add-on to 22630
+- Cannot be billed without 22630 on the same date of service
+- Supported diagnoses are the same as for 22630
+
+GENERAL CLINICAL MATCHING RULE
+A primary diagnosis must directly and clinically justify the primary procedure. Supporting diagnoses may be present but do not override a clinically impossible primary pairing. When the primary diagnosis and primary procedure have no established clinical pathway connecting them, the claim must be denied for clinical mismatch.
