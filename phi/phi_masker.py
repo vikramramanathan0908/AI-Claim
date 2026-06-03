@@ -4,6 +4,7 @@ import uuid
 from typing import Any
 
 from presidio_analyzer import AnalyzerEngine, PatternRecognizer, Pattern
+from presidio_analyzer.nlp_engine import NlpEngineProvider
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
@@ -22,7 +23,9 @@ class _MemberIDRecognizer(PatternRecognizer):
 
 class PHIMasker:
     def __init__(self):
-        self._analyzer = AnalyzerEngine()
+        nlp_config = {"nlp_engine_name": "spacy", "models": [{"lang_code": "en", "model_name": "en_core_web_sm"}]}
+        nlp_engine = NlpEngineProvider(nlp_configuration=nlp_config).create_engine()
+        self._analyzer = AnalyzerEngine(nlp_engine=nlp_engine)
         self._analyzer.registry.add_recognizer(_MemberIDRecognizer())
         self._anonymizer = AnonymizerEngine()
         self._entity_types = ["PERSON", "LOCATION", "MEMBER_ID", "US_SSN", "PHONE_NUMBER"]
