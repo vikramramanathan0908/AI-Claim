@@ -4,11 +4,14 @@ import time
 from pathlib import Path
 
 import streamlit as st
-from dotenv import load_dotenv
-
-load_dotenv(".env", override=True)
+try:
+    from dotenv import load_dotenv
+    load_dotenv(".env", override=True)
+except ImportError:
+    pass
 api_key = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = api_key
+if api_key:
+    os.environ["OPENAI_API_KEY"] = api_key
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
