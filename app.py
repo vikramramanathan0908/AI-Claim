@@ -118,20 +118,32 @@ _init_state()
 st.markdown("## 🏥 AI Claims Processing — Live Demo")
 st.markdown(
     "Replacing a 30-day manual process with a 60-second AI-powered workflow. "
-    "Select a claim below and click **Process Claim**."
+    "Select a sample claim or upload your own EDI file, then click **Process Claim**."
 )
 st.divider()
 
 # ── Claim selector + controls ─────────────────────────────────────────────────
-col_sel, col_btn, col_status = st.columns([3, 1, 2])
+tab_sample, tab_upload = st.tabs(["Sample Claims", "Upload EDI File"])
 
-with col_sel:
+with tab_sample:
     selected_label = st.selectbox(
         "Select claim file",
         options=list(CLAIM_FILES.keys()),
         key="selected_file",
         label_visibility="collapsed",
     )
+    edi_path = CLAIMS_DIR / CLAIM_FILES[selected_label]
+    raw_edi = edi_path.read_text() if edi_path.exists() else ""
+
+with tab_upload:
+    uploaded_file = st.file_uploader("Upload an EDI 837 claim file (.edi or .txt)", type=["edi", "txt"])
+    if uploaded_file is not None:
+        raw_edi = uploaded_file.read().decode("utf-8")
+        st.success(f"Loaded: {uploaded_file.name}")
+    elif "raw_edi" not in st.session_state:
+        raw_edi = raw_edi if "raw_edi" in dir() else ""
+
+col_btn, col_status = st.columns([1, 2])
 
 with col_btn:
     process_clicked = st.button(
@@ -164,9 +176,6 @@ col_left, col_right = st.columns([1, 1], gap="large")
 # ── LEFT: Claim data ──────────────────────────────────────────────────────────
 with col_left:
     st.markdown("### Claim Data")
-
-    edi_path = CLAIMS_DIR / CLAIM_FILES[selected_label]
-    raw_edi = edi_path.read_text() if edi_path.exists() else ""
 
     tab_raw, tab_parsed, tab_masked = st.tabs(["Raw EDI", "Parsed JSON", "Masked JSON"])
 
