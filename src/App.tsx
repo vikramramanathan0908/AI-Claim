@@ -296,14 +296,20 @@ function App() {
 
           {session.intakeOutput && (
             <div className="agent-section">
-              <div className="agent-label">Agent 1 — Intake Review</div>
+              <div className="agent-label">
+                <span className="agent-icon agent-icon-1">1</span>
+                Intake Review
+              </div>
               <div className="agent-output">{session.intakeOutput}</div>
             </div>
           )}
 
-          {session.decisionOutput && (
+          {session.decisionOutput && !session.processingState.startsWith("awaiting") && (
             <div className="agent-section">
-              <div className="agent-label">Agent 2 — Decision</div>
+              <div className="agent-label">
+                <span className="agent-icon agent-icon-2">2</span>
+                Decision
+              </div>
               <div className="agent-output">{session.decisionOutput}</div>
             </div>
           )}
@@ -339,7 +345,10 @@ function App() {
 
           {session.paymentOutput && (
             <div className="agent-section">
-              <div className="agent-label">Agent 3 — Payment Calculation</div>
+              <div className="agent-label">
+                <span className="agent-icon agent-icon-3">3</span>
+                Payment Calculation
+              </div>
               <div className="agent-output">{session.paymentOutput}</div>
             </div>
           )}
