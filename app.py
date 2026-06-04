@@ -16,7 +16,7 @@ if api_key:
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="AI Claims Processing",
-    page_icon="🏥",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -24,60 +24,148 @@ st.set_page_config(
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-.stApp { background-color: #0f1117; }
+/* ── Base ── */
+.stApp {
+    background-color: #f8f9fb;
+}
+
+/* ── Typography ── */
+h2, h3 {
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    color: #1a1d26 !important;
+}
+
+/* ── Metric cards ── */
 .metric-card {
-    background: #1e2130;
-    border: 1px solid #2d3148;
+    background: #ffffff;
+    border: 1px solid #e2e5eb;
     border-radius: 8px;
     padding: 16px 20px;
     text-align: center;
 }
+
+/* ── Status badges ── */
 .badge-approved {
-    background: #1a472a;
-    color: #4ade80;
-    border: 1px solid #4ade80;
+    display: inline-block;
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
     border-radius: 6px;
-    padding: 6px 18px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-.badge-denied {
-    background: #450a0a;
-    color: #f87171;
-    border: 1px solid #f87171;
-    border-radius: 6px;
-    padding: 6px 18px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-.badge-pending {
-    background: #1c1a00;
-    color: #facc15;
-    border: 1px solid #facc15;
-    border-radius: 6px;
-    padding: 6px 18px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-.agent-header {
+    padding: 5px 20px;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
+    letter-spacing: 0.8px;
 }
-.phi-badge {
-    background: #0f2744;
-    color: #60a5fa;
-    border: 1px solid #2563eb;
-    border-radius: 4px;
-    padding: 3px 10px;
-    font-size: 0.78rem;
+.badge-denied {
+    display: inline-block;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    padding: 5px 20px;
+    font-size: 0.85rem;
     font-weight: 600;
+    letter-spacing: 0.8px;
+}
+.badge-pending {
+    display: inline-block;
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+    border-radius: 6px;
+    padding: 5px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+/* ── Agent headers ── */
+.agent-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+}
+
+/* ── PHI badge ── */
+.phi-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    border-radius: 4px;
+    padding: 3px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* ── Agent output box ── */
+.agent-box {
+    background: #ffffff;
+    border: 1px solid #e2e5eb;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 340px;
+    overflow-y: auto;
+    color: #374151;
+}
+
+/* ── Tabs ── */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 2px;
+}
+.stTabs [data-baseweb="tab"] {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px 6px 0 0;
+}
+
+/* ── Section dividers ── */
+hr {
+    border: none !important;
+    border-top: 1px solid #e2e5eb !important;
+    margin: 24px 0 !important;
+}
+
+/* ── Streamlit overrides for cleanliness ── */
+.stMetric > div {
+    background: #ffffff;
+    border: 1px solid #e2e5eb;
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+/* ── Code block refinement ── */
+.stCodeBlock {
+    border-radius: 8px !important;
+    border: 1px solid #e2e5eb !important;
+}
+
+/* ── Buttons ── */
+.stButton > button[kind="primary"] {
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* ── Info/success boxes ── */
+.stSuccess, .stInfo, .stWarning {
+    border-radius: 8px;
+}
+
+/* ── JSON viewer ── */
+.stJson {
+    border: 1px solid #e2e5eb;
+    border-radius: 8px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -115,10 +203,22 @@ def _init_state():
 _init_state()
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.markdown("## 🏥 AI Claims Processing — Live Demo")
+st.markdown("""
+<div style="margin-bottom: 8px;">
+    <span style="font-size: 1.6rem; font-weight: 700; color: #1a1d26; letter-spacing: -0.02em;">
+        AI Claims Processing
+    </span>
+    <span style="font-size: 0.8rem; font-weight: 500; color: #6b7280; margin-left: 12px; vertical-align: middle;">
+        Live Demo
+    </span>
+</div>
+""", unsafe_allow_html=True)
 st.markdown(
-    "Replacing a 30-day manual process with a 60-second AI-powered workflow. "
-    "Select a sample claim or upload your own EDI file, then click **Process Claim**."
+    '<span style="color: #6b7280; font-size: 0.9rem; line-height: 1.5;">'
+    'Replace a 30-day manual process with a 60-second AI-powered workflow. '
+    'Select a sample claim or upload your own EDI file, then click <b>Process Claim</b>.'
+    '</span>',
+    unsafe_allow_html=True,
 )
 st.divider()
 
@@ -147,7 +247,7 @@ col_btn, col_status = st.columns([1, 2])
 
 with col_btn:
     process_clicked = st.button(
-        "▶ Process Claim",
+        "Process Claim",
         type="primary",
         disabled=st.session_state.processing_state == "running",
         use_container_width=True,
@@ -175,7 +275,7 @@ col_left, col_right = st.columns([1, 1], gap="large")
 
 # ── LEFT: Claim data ──────────────────────────────────────────────────────────
 with col_left:
-    st.markdown("### Claim Data")
+    st.markdown('<div style="font-size: 0.95rem; font-weight: 600; color: #1a1d26; margin-bottom: 8px;">Claim Data</div>', unsafe_allow_html=True)
 
     tab_raw, tab_parsed, tab_masked = st.tabs(["Raw EDI", "Parsed JSON", "Masked JSON"])
 
@@ -191,7 +291,7 @@ with col_left:
     with tab_masked:
         if st.session_state.masked_claim:
             st.markdown(
-                '<span class="phi-badge">🔒 PHI PROTECTED — Names and addresses replaced with tokens</span>',
+                '<span class="phi-badge">PHI PROTECTED — Names and addresses replaced with tokens</span>',
                 unsafe_allow_html=True,
             )
             st.json(st.session_state.masked_claim)
@@ -203,22 +303,20 @@ with col_left:
 
 # ── RIGHT: AI agent outputs ───────────────────────────────────────────────────
 with col_right:
-    st.markdown("### AI Processing")
+    st.markdown('<div style="font-size: 0.95rem; font-weight: 600; color: #1a1d26; margin-bottom: 8px;">AI Processing</div>', unsafe_allow_html=True)
 
     intake_placeholder = st.empty()
     decision_placeholder = st.empty()
     human_review_placeholder = st.empty()
     payment_placeholder = st.empty()
 
-    def _render_agent_box(placeholder, label: str, content: str, color: str = "#1e2130"):
+    def _render_agent_box(placeholder, label: str, content: str, color: str = "#ffffff"):
         with placeholder.container():
             st.markdown(f'<div class="agent-header">{label}</div>', unsafe_allow_html=True)
             if content:
+                escaped = content.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
                 st.markdown(
-                    f'<div style="background:{color};border:1px solid #2d3148;'
-                    f'border-radius:8px;padding:14px;font-family:monospace;'
-                    f'font-size:0.82rem;white-space:pre-wrap;max-height:320px;overflow-y:auto;">'
-                    f'{content}</div>',
+                    f'<div class="agent-box">{escaped}</div>',
                     unsafe_allow_html=True,
                 )
 
@@ -232,22 +330,42 @@ with col_right:
     # Human review panel
     if st.session_state.processing_state == "awaiting_human":
         with human_review_placeholder.container():
-            st.warning("**Human Review Required** — AI flagged this claim for manual decision.")
-            st.markdown("**AI Summary:**")
-            st.markdown(st.session_state.decision_output)
-            st.divider()
-            st.markdown("**Your decision:**")
+            st.markdown(
+                '<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;'
+                'padding:14px 18px;margin-bottom:12px;">'
+                '<span style="font-weight:600;color:#92400e;">Human Review Required</span>'
+                '<span style="color:#92400e;"> — AI flagged this claim for manual decision.</span>'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                '<div style="font-size:0.8rem;font-weight:600;color:#6b7280;text-transform:uppercase;'
+                'letter-spacing:0.6px;margin-bottom:4px;">AI Summary</div>',
+                unsafe_allow_html=True,
+            )
+            decision_escaped = st.session_state.decision_output.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            st.markdown(f'<div class="agent-box">{decision_escaped}</div>', unsafe_allow_html=True)
+            st.markdown(
+                '<div style="font-size:0.8rem;font-weight:600;color:#6b7280;text-transform:uppercase;'
+                'letter-spacing:0.6px;margin-top:12px;margin-bottom:4px;">Your Decision</div>',
+                unsafe_allow_html=True,
+            )
             h_col1, h_col2 = st.columns(2)
             with h_col1:
-                if st.button("✅ APPROVE", type="primary", use_container_width=True):
+                if st.button("APPROVE", type="primary", use_container_width=True):
                     _do_resume("APPROVE")
             with h_col2:
-                if st.button("❌ DENY", type="secondary", use_container_width=True):
+                if st.button("DENY", type="secondary", use_container_width=True):
                     _do_resume("DENY")
 
 # ── Bottom outcome strip ───────────────────────────────────────────────────────
 if st.session_state.processing_state in ("done", "awaiting_human"):
     st.divider()
+    st.markdown(
+        '<div style="font-size:0.8rem;font-weight:600;color:#6b7280;text-transform:uppercase;'
+        'letter-spacing:0.8px;margin-bottom:8px;">Results</div>',
+        unsafe_allow_html=True,
+    )
     out_col1, out_col2, out_col3, out_col4 = st.columns(4)
 
     with out_col1:
