@@ -138,94 +138,85 @@ function App() {
     <div className="app">
       {/* ── Header ── */}
       <header className="header">
+        <div className="header-eyebrow">AI-Powered Workflow</div>
         <div>
-          <span className="header-title">AI Claims Processing</span>
-          <span className="header-subtitle">Live Demo</span>
+          <span className="header-title">Claims Processing</span>
         </div>
         <p className="header-desc">
           Replace a 30-day manual process with a 60-second AI-powered workflow.
-          Select a sample claim or upload your own EDI file, then click Process
-          Claim.
+          Select a sample claim or upload your own EDI file, then click Process Claim.
         </p>
       </header>
 
       <hr className="divider" />
 
-      {/* ── Controls ── */}
-      <div className="controls">
-        <div className="control-group">
-          <label className="control-label">Input Method</label>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button
-              className={`tab ${inputMode === "sample" ? "active" : ""}`}
-              style={{ borderBottom: inputMode === "sample" ? "2px solid var(--blue-600)" : "2px solid transparent" }}
-              onClick={() => setInputMode("sample")}
-            >
-              Sample Claims
-            </button>
-            <button
-              className={`tab ${inputMode === "upload" ? "active" : ""}`}
-              style={{ borderBottom: inputMode === "upload" ? "2px solid var(--blue-600)" : "2px solid transparent" }}
-              onClick={() => setInputMode("upload")}
-            >
-              Upload EDI File
-            </button>
-          </div>
+      {/* ── Controls card ── */}
+      <div className="controls-card">
+        <div className="input-tabs">
+          <button
+            className={`input-tab ${inputMode === "sample" ? "active" : ""}`}
+            onClick={() => setInputMode("sample")}
+          >
+            Sample Claims
+          </button>
+          <button
+            className={`input-tab ${inputMode === "upload" ? "active" : ""}`}
+            onClick={() => setInputMode("upload")}
+          >
+            Upload EDI File
+          </button>
         </div>
 
-        {inputMode === "sample" ? (
-          <div className="control-group">
-            <label className="control-label">Select Claim</label>
-            <select
-              className="control-select"
-              value={selectedFile}
-              onChange={(e) => setSelectedFile(e.target.value)}
+        <div className="controls">
+          {inputMode === "sample" ? (
+            <div className="control-group">
+              <label className="control-label">Select Claim</label>
+              <select
+                className="control-select"
+                value={selectedFile}
+                onChange={(e) => setSelectedFile(e.target.value)}
+                disabled={session.processingState === "running"}
+              >
+                {Object.keys(CLAIM_FILES).map((label) => (
+                  <option key={label} value={label}>{label}</option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div className="control-group">
+              <label className="control-label">Upload File</label>
+              <div className="upload-area" onClick={() => fileInputRef.current?.click()}>
+                {uploadedEdi
+                  ? <span className="upload-success">✓ File loaded</span>
+                  : "Click to upload .edi or .txt"}
+                <input ref={fileInputRef} type="file" accept=".edi,.txt" onChange={handleFileUpload} />
+              </div>
+            </div>
+          )}
+
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 14 }}>
+            <button
+              className="btn-process"
+              onClick={handleProcess}
               disabled={session.processingState === "running"}
             >
-              {Object.keys(CLAIM_FILES).map((label) => (
-                <option key={label} value={label}>
-                  {label}
-                </option>
-              ))}
-            </select>
+              ▶ Process Claim
+            </button>
+            <StatusBadge state={session.processingState} finalStatus={session.finalStatus} />
           </div>
-        ) : (
-          <div className="control-group">
-            <label className="control-label">Upload File</label>
-            <div
-              className="upload-area"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              {uploadedEdi ? "File loaded" : "Click to upload .edi or .txt"}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".edi,.txt"
-                onChange={handleFileUpload}
-              />
-            </div>
-          </div>
-        )}
-
-        <div style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>
-          <button
-            className="btn-process"
-            onClick={handleProcess}
-            disabled={session.processingState === "running"}
-          >
-            Process Claim
-          </button>
-          <StatusBadge state={session.processingState} finalStatus={session.finalStatus} />
         </div>
       </div>
-
-      <hr className="divider" />
 
       {/* ── Main two-column ── */}
       <div className="main-grid">
         {/* ── LEFT: Claim Data ── */}
         <div className="panel">
-          <div className="panel-header">Claim Data</div>
+          <div className="panel-header">
+            <span className="panel-header-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </span>
+            Claim Data
+          </div>
           <div className="tabs">
             <button
               className={`tab ${leftTab === "raw" ? "active" : ""}`}
@@ -255,6 +246,7 @@ function App() {
                 <JsonDisplay data={session.parsedClaim} />
               ) : (
                 <div className="empty-state">
+                  <span className="empty-state-icon">{ }</span>
                   Run the pipeline to see parsed JSON
                 </div>
               ))}
@@ -284,6 +276,7 @@ function App() {
                 </>
               ) : (
                 <div className="empty-state">
+                  <span className="empty-state-icon">🔒</span>
                   Run the pipeline to see masked JSON
                 </div>
               ))}
@@ -292,7 +285,12 @@ function App() {
 
         {/* ── RIGHT: AI Processing ── */}
         <div className="panel">
-          <div className="panel-header">AI Processing</div>
+          <div className="panel-header">
+            <span className="panel-header-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </span>
+            AI Processing
+          </div>
 
           {session.intakeOutput && (
             <div className="agent-section">
@@ -359,6 +357,7 @@ function App() {
             session.processingState !== "running" && (
               <div className="tab-content">
                 <div className="empty-state">
+                  <span className="empty-state-icon">🤖</span>
                   Run the pipeline to see AI agent outputs
                 </div>
               </div>
