@@ -21,6 +21,7 @@ interface Session {
   processingSeconds: number;
   guardrailWarnings: string[];
   stage: string;
+  threadId?: string;
 }
 
 const INITIAL_SESSION: Session = {
@@ -93,17 +94,22 @@ function App() {
   }, [rawEdi]);
 
   const handleHumanDecision = useCallback(
-    (decision: "APPROVE" | "DENY") => {
-      if (!session.parsedClaim) return;
-      const result = processHumanDecision(session.parsedClaim, decision);
+    async (decision: "APPROVE" | "DENY") => {
+      if (!session.threadId) return;
+      setSession((prev) => ({ ...prev, processingState: "running", stage: "payment" }));
+      const result = await processHumanDecision(session.threadId, decision, (stage) => {
+        setSession((prev) => ({ ...prev, stage }));
+      });
       setSession((prev) => ({
         ...prev,
         paymentOutput: result.paymentOutput,
         finalStatus: result.finalStatus,
+        processingSeconds: result.processingSeconds || prev.processingSeconds,
         processingState: "done",
+        stage: "",
       }));
     },
-    [session.parsedClaim]
+    [session.threadId]
   );
 
   const handleFileUpload = useCallback(
