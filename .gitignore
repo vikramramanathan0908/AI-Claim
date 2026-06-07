@@ -13,3 +13,4 @@ streamlit_out.txt
 streamlit_err.txt
 node_modules/
 .vite/
+CLAUDE.local.md
