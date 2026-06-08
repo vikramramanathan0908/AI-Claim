@@ -1,9 +1,10 @@
 import json
 from typing import Generator
 
+import os
 from openai import OpenAI
 
-_client = OpenAI()
+_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 _SYSTEM_PROMPT = """You are an insurance payment calculation agent. The claim has been approved. Calculate exactly how much the insurance plan pays and how much the patient owes.
 
