@@ -163,7 +163,7 @@ export async function processClaim(
       }
     } else if (type === "interrupted") {
       decision = "HUMAN_REVIEW";
-      decisionOutput = (d.decision_output as string) ?? decisionOutput;
+      decisionOutput = (d.decision_output as string) || decisionOutput;
     } else if (type === "done") {
       finalStatus = (d.final_status as string) ?? "PENDING";
       processingSeconds = (d.processing_seconds as number) ?? 0;
