@@ -2,9 +2,10 @@ import json
 import re
 from typing import Generator
 
+import os
 from openai import OpenAI
 
-_client = OpenAI()
+_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 _SYSTEM_PROMPT = """You are an insurance claim decision agent. You receive a claim and the findings from an intake review, and you make ONE final decision.
 
