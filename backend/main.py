@@ -6,7 +6,10 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
 from dotenv import load_dotenv
-load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"), override=True)
+_backend_dir = os.path.dirname(__file__)
+for _env_name in (".env", ".ENV"):
+    load_dotenv(os.path.join(_backend_dir, _env_name), override=False)
+load_dotenv(os.path.join(_backend_dir, "..", ".env"), override=True)
 api_key = os.getenv("OPENAI_API_KEY")
 os.environ["OPENAI_API_KEY"] = api_key
 

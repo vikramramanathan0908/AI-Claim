@@ -1,0 +1,335 @@
+/* ── Console shell ── */
+.console {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 36px 32px 72px;
+}
+
+@media (max-width: 760px) {
+  .console { padding: 24px 18px 48px; }
+}
+
+/* ── Header ── */
+.console-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.console-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--teal-400);
+  margin-bottom: 12px;
+}
+
+.console-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal-400);
+  box-shadow: 0 0 8px var(--teal-400);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.console-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: #f1f5f9;
+  margin-bottom: 10px;
+}
+
+.console-desc {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 580px;
+}
+
+/* ── Input card ── */
+.console-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-2xl);
+  padding: 22px 24px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 24px;
+}
+
+/* ── Claim cards ── */
+.claim-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.claim-card {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.claim-card:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+.claim-card:disabled { cursor: not-allowed; opacity: 0.55; }
+
+.claim-card.selected {
+  border-color: rgba(96, 165, 250, 0.6);
+  background: rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.4), 0 8px 24px rgba(37, 99, 235, 0.2);
+}
+
+.claim-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.claim-tag {
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.tag-clean { color: #34d399; background: rgba(5, 150, 105, 0.16); border: 1px solid rgba(52, 211, 153, 0.28); }
+.tag-flagged { color: #fbbf24; background: rgba(217, 119, 6, 0.16); border: 1px solid rgba(251, 191, 36, 0.28); }
+.tag-fraud { color: #f87171; background: rgba(220, 38, 38, 0.16); border: 1px solid rgba(248, 113, 113, 0.28); }
+
+.claim-amount {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.claim-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.claim-card-proc {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--blue-400);
+}
+
+.claim-card-blurb {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.48);
+  flex: 1;
+}
+
+.claim-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.claim-expected {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.claim-selected-mark {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #60a5fa, #2563eb);
+  color: #fff;
+}
+
+.claim-selected-mark svg { width: 11px; height: 11px; }
+
+@media (max-width: 860px) {
+  .claim-cards { grid-template-columns: 1fr; }
+}
+
+/* ── Run row ── */
+.console-run {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  flex-wrap: wrap;
+}
+
+.console-run-meta {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.console-run-meta strong { color: #f1f5f9; font-weight: 700; }
+
+/* ── Pipeline stepper ── */
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-2xl);
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.step:last-child { flex: 0; }
+
+.step-node {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.25);
+  color: rgba(255, 255, 255, 0.4);
+  transition: all var(--transition);
+  z-index: 1;
+}
+
+.step-node svg { width: 16px; height: 16px; }
+
+.step-done .step-node {
+  background: linear-gradient(135deg, #2dd4bf, #0d9488);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 14px rgba(13, 148, 136, 0.4);
+}
+
+.step-active .step-node {
+  background: rgba(37, 99, 235, 0.15);
+  border-color: var(--blue-400);
+  color: var(--blue-400);
+  box-shadow: 0 0 16px rgba(37, 99, 235, 0.3);
+}
+
+.step-gated .step-node {
+  background: rgba(217, 119, 6, 0.15);
+  border-color: #fbbf24;
+  color: #fbbf24;
+}
+
+.step-spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(96, 165, 250, 0.3);
+  border-top-color: var(--blue-400);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.step-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.step-pending .step-label { color: rgba(255, 255, 255, 0.4); }
+
+.step-sub {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  margin: 0 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  min-width: 16px;
+  transition: background var(--transition);
+}
+
+.step-line.filled { background: linear-gradient(90deg, #2dd4bf, #0d9488); }
+
+@media (max-width: 860px) {
+  .stepper { flex-direction: column; gap: 16px; align-items: stretch; }
+  .step { flex: none; }
+  .step-line { display: none; }
+}
+
+/* ── AI thinking state ── */
+.ai-thinking {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 140px;
+  color: var(--blue-400);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.ai-thinking-ring {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(96, 165, 250, 0.25);
+  border-top-color: var(--blue-400);
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── Results spacing override in console ── */
+.console .results-grid { margin-bottom: 24px; }
+.console .warning-banner { margin-bottom: 16px; }

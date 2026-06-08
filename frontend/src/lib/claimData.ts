@@ -4,6 +4,52 @@ export const CLAIM_FILES: Record<string, string> = {
   "Fraud Claim — Impossible Diagnosis ($35,000)": "claim_fraud.edi",
 };
 
+export type ClaimTag = "clean" | "flagged" | "fraud";
+
+export interface ClaimMeta {
+  file: string;
+  title: string;
+  procedure: string;
+  amount: number;
+  tag: ClaimTag;
+  tagLabel: string;
+  blurb: string;
+  expected: string;
+}
+
+export const CLAIMS: ClaimMeta[] = [
+  {
+    file: "claim_clean.edi",
+    title: "Knee Replacement",
+    procedure: "CPT 27447 · M17.11",
+    amount: 8500,
+    tag: "clean",
+    tagLabel: "Clean",
+    blurb: "Well-formed claim with valid prior auth and matching diagnosis. Should sail through to approval.",
+    expected: "Auto-approve",
+  },
+  {
+    file: "claim_flagged.edi",
+    title: "Spinal Fusion",
+    procedure: "CPT 22630/22632 · M43.16",
+    amount: 42000,
+    tag: "flagged",
+    tagLabel: "High-Dollar",
+    blurb: "Exceeds the $25k auto-approval threshold, so the pipeline escalates it for human sign-off.",
+    expected: "Human review",
+  },
+  {
+    file: "claim_fraud.edi",
+    title: "Impossible Diagnosis",
+    procedure: "CPT 27447 · J18.9",
+    amount: 35000,
+    tag: "fraud",
+    tagLabel: "Suspicious",
+    blurb: "Bills a knee replacement against a pneumonia diagnosis — a clinical mismatch the intake agent flags.",
+    expected: "Likely deny",
+  },
+];
+
 export const CLAIM_RAW: Record<string, string> = {
   claim_clean: `ISA*00*          *00*          *ZZ*VALLEYORTHOPED  *ZZ*BLUEINSURANCE  *240115*0900*^*00501*000000001*0*P*:~
 GS*HC*VALLEYORTHO*BLUEINS*20240115*0900*1*X*005010X222A1~
