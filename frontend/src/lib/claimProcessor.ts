@@ -1,5 +1,48 @@
-import { parseEdi, maskPhi } from "./ediParser";
-import type { ParsedClaim } from "./ediParser";
+export interface Procedure {
+  code: string;
+  qualifier: string;
+  charge: number;
+  units: number;
+}
+
+export interface ParsedClaim {
+  patient: {
+    name: string;
+    member_id: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    dob: string;
+    gender: string;
+  };
+  claim: {
+    id: string;
+    total_amount: number;
+    place_of_service: string;
+    dates_of_service: string;
+  };
+  provider: {
+    name: string;
+    npi: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  billing_provider: {
+    name: string;
+    npi: string;
+  };
+  plan: {
+    name: string;
+    payer_id: string;
+  };
+  diagnoses: string[];
+  procedures: Procedure[];
+  prior_auth: string | null;
+  raw_segment_count: number;
+}
 
 export type ProcessingState = "idle" | "running" | "awaiting_human" | "done";
 
@@ -72,12 +115,9 @@ export async function processClaim(
 ): Promise<ProcessedResult> {
   const start = performance.now();
 
-  // Parse locally for immediate UI feedback
-  onProgress("parsing");
-  const parsedClaim = parseEdi(ediText);
-  onProgress("masking");
-  const { masked: maskedClaim, tokenMap } = maskPhi(parsedClaim);
-
+  let parsedClaim: ParsedClaim | null = null;
+  let maskedClaim: Record<string, unknown> | null = null;
+  let tokenMap: Record<string, string> = {};
   let intakeOutput = "";
   let decisionOutput = "";
   let decision = "";
@@ -87,7 +127,7 @@ export async function processClaim(
   const guardrailWarnings: string[] = [];
   let threadId: string | undefined;
 
-  onProgress("intake");
+  onProgress("parsing");
 
   const response = await fetch(`${API_BASE}/api/process`, {
     method: "POST",
@@ -101,7 +141,12 @@ export async function processClaim(
 
   await readSseStream(response, (type, data) => {
     const d = data as Record<string, unknown>;
-    if (type === "thread_id") {
+    if (type === "parsed") {
+      parsedClaim = d.parsed_claim as ParsedClaim;
+      maskedClaim = d.masked_claim as Record<string, unknown>;
+      tokenMap = d.token_map as Record<string, string>;
+      onProgress("intake");
+    } else if (type === "thread_id") {
       threadId = d.thread_id as string;
     } else if (type === "node") {
       const node = d.node as string;
@@ -132,8 +177,8 @@ export async function processClaim(
   processingSeconds = processingSeconds || Math.round((performance.now() - start) / 100) / 10;
 
   return {
-    parsedClaim,
-    maskedClaim,
+    parsedClaim: parsedClaim!,
+    maskedClaim: maskedClaim!,
     tokenMap,
     intakeOutput,
     decisionOutput,

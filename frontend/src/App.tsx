@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback } from "react";
 import "./App.css";
 import { CLAIM_FILES, getRawEdi } from "./lib/claimData";
-import type { ParsedClaim } from "./lib/ediParser";
 import {
   type ProcessingState,
+  type ParsedClaim,
   processClaim,
   processHumanDecision,
 } from "./lib/claimProcessor";

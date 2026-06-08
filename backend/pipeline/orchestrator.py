@@ -27,13 +27,14 @@ def run_pipeline(edi_text: str, thread_id: str) -> Generator[tuple[str, dict], N
 
     parsed_claim = parse_edi(edi_text)
     masked_claim, token_map = _masker.mask(parsed_claim)
-    retrieved_rules = retriever.get_relevant_rules(masked_claim)
 
     yield ("parsed", {
         "parsed_claim": parsed_claim,
         "masked_claim": masked_claim,
         "token_map": token_map,
     })
+
+    retrieved_rules = retriever.get_relevant_rules(masked_claim)
     yield ("rules", {"retrieved_rules": retrieved_rules})
 
     initial_state: dict = {
