@@ -22,9 +22,20 @@ from pipeline.orchestrator import run_pipeline, resume_pipeline, make_thread_id
 
 app = FastAPI(title="AI Claims Processing API")
 
+_extra_origin = os.getenv("FRONTEND_ORIGIN", "")
+_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+]
+if _extra_origin:
+    _origins.append(_extra_origin)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174"],
+    allow_origins=_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
 )

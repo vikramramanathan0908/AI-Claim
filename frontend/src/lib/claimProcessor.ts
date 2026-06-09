@@ -74,7 +74,7 @@ export interface ProcessedResult {
   threadId?: string;
 }
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_BASE ?? "";
 
 function parseSseChunk(raw: string): { type: string; data: unknown } | null {
   const line = raw.trim();
