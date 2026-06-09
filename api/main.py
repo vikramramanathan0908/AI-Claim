@@ -56,6 +56,7 @@ def _stream_events(generator):
     yield "data: [DONE]\n\n"
 
 
+@app.post("/process")
 @app.post("/api/process")
 async def process_claim(req: ProcessRequest):
     thread_id = make_thread_id()
@@ -70,6 +71,7 @@ async def process_claim(req: ProcessRequest):
     return StreamingResponse(generate(), media_type="text/event-stream")
 
 
+@app.post("/resume")
 @app.post("/api/resume")
 async def resume_claim(req: ResumeRequest):
     def generate():
