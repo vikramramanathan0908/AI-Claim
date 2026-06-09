@@ -39,9 +39,7 @@ def human_review_node(state: ClaimState) -> dict:
             "claim_id": state.get("parsed_claim", {}).get("claim", {}).get("id", ""),
         }
     )
-    # When the interrupt resolves, human_input contains the resumed value.
-    # The caller sets human_decision in state via Command(resume=...) or update.
-    return {}
+    return {"human_decision": human_input}
 
 
 def payment_node(state: ClaimState) -> dict:
