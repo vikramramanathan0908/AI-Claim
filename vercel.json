@@ -1,13 +1,13 @@
 {
-  "version": 2,
-  "rewrites": [
-    {
-      "source": "/_/backend/(.*)",
-      "destination": "../backend/main.py"
+  "experimentalServices": {
+    "frontend": {
+      "root": "frontend",
+      "routePrefix": "/",
+      "framework": "vite"
     },
-    {
-      "source": "/(.*)",
-      "destination": "/$1"
+    "backend": {
+      "root": "backend",
+      "routePrefix": "/_/backend"
     }
-  ]
+  }
 }
