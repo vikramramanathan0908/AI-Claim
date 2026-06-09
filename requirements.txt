@@ -1,0 +1,7 @@
+openai>=1.30
+fastapi>=0.111
+uvicorn>=0.29
+langgraph>=0.2
+langchain-openai>=0.1
+supabase>=2.0
+python-dotenv>=1.0
