@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# AI-Claim
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An AI-driven insurance claims processing pipeline. An EDI claim document goes in, and a final **APPROVED / DENIED** decision comes out — with an optional human-in-the-loop review step. Progress is streamed to the frontend in real time via Server-Sent Events (SSE).
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Layer | Technology |
+|---|---|
+| Frontend | React + TypeScript + Vite |
+| Backend | Python + FastAPI |
+| AI / Agents | LangGraph + LangChain + OpenAI |
+| RAG | Supabase pgvector (`text-embedding-3-small`) |
+| Deployment | Vercel (`vercel.json` experimentalServices) |
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+AI-Claim/
+├── frontend/          # React + Vite app
+│   └── src/
+│       ├── pages/     # Landing.tsx, Console.tsx
+│       └── components/# Navbar.tsx, Footer.tsx
+├── backend/
+│   ├── main.py        # FastAPI app, /api/process + /api/resume
+│   ├── pipeline/      # orchestrator.py — drives the full pipeline
+│   ├── graph/         # LangGraph state machine (builder, nodes, edges, state)
+│   ├── agents/        # intake_agent, decision_agent, payment_agent
+│   ├── rag/           # rules_retriever.py — Supabase pgvector RAG
+│   ├── phi/           # phi_masker.py — PHI masking before any LLM call
+│   ├── parser/        # edi_parser.py
+│   └── db/            # setup.sql — Supabase schema
+├── vercel.json
+└── .env               # OPENAI_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 1. Environment variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Create a `.env` file at the repo root:
+
 ```
+OPENAI_API_KEY=...
+SUPABASE_URL=...
+SUPABASE_SERVICE_KEY=...
+```
+
+### 2. Backend
+
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+Runs on `http://localhost:8000`.
+
+### 3. Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Runs on `http://localhost:5173`.
+
+## How It Works
+
+1. User pastes an EDI claim on the Console page and submits.
+2. `/api/process` streams SSE events: `parsed → rules → node → interrupted|done`.
+3. The LangGraph pipeline runs: `intake → decision → [human_review] → payment|denial`.
+4. If the decision agent flags the claim for human review, an `interrupted` event is sent and the frontend shows a review prompt.
+5. The reviewer clicks APPROVE or DENY → `/api/resume` resumes the graph and streams the final result.
+
+### PHI Masking
+Sensitive fields are masked via `phi/phi_masker.py` before any data touches an LLM or the RAG retriever. The `token_map` is kept server-side to unmask values when needed.
+
+### RAG
+Insurance rule `.txt` files in `backend/data/rules/` are chunked, embedded with `text-embedding-3-small`, and stored in a Supabase `rule_chunks` table. On first startup the table is populated automatically; subsequent restarts skip re-embedding. Retrieval uses cosine similarity via the `match_rule_chunks` Postgres function (top-4 chunks).
+
+## Deployment
+
+Deployed on Vercel via `vercel.json`:
+- Frontend → `/`
+- Backend → `/_/backend`
