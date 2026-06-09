@@ -1,0 +1,42 @@
+BENEFIT RULES — Blue Shield Insurance PPO-2024 Plan
+Version: 2024.1
+Effective: January 1, 2024
+
+COVERED PROCEDURES
+The following procedure codes are covered under PPO-2024:
+- 27447: Total knee arthroplasty (knee replacement) — covered for musculoskeletal indications only
+- 27446: Hemi knee arthroplasty — covered
+- 22630: Lumbar posterior interbody arthrodesis (spinal fusion) — covered for spinal indications
+- 22632: Lumbar posterior interbody arthrodesis additional level — covered as add-on to 22630
+- 99213: Office visit, established patient, moderate complexity — covered
+- 99214: Office visit, established patient, high complexity — covered
+- 71046: Chest X-ray, 2 views — covered
+
+EXCLUDED PROCEDURES
+- Cosmetic procedures are excluded unless reconstructive and documented as medically necessary.
+- Experimental procedures not listed in the CPT-2024 manual are excluded.
+- Procedures performed outside network without emergency authorization are excluded.
+
+DEDUCTIBLE
+- Annual deductible: $2,000 per member per calendar year
+- Deductible applies before coinsurance kicks in
+- Deductible resets January 1 of each year
+
+COINSURANCE
+- After deductible is met: Plan pays 80%, Member pays 20%
+- Coinsurance applies to contracted rate, not billed amount
+- Example: If contracted rate is $7,200 and deductible is met, plan pays $5,760 and member pays $1,440
+
+OUT-OF-POCKET MAXIMUM
+- Annual out-of-pocket maximum: $5,000 per member per calendar year
+- Once out-of-pocket maximum is reached, plan pays 100% of covered services for remainder of year
+
+NETWORK REQUIREMENTS
+- Services must be rendered by a contracted provider unless emergency
+- Valley Orthopedic Center (NPI: 1234567893) is a contracted provider
+- Regional Spine Center (NPI: 2345678904) is a contracted provider
+- Quick Medical Clinic (NPI: 3456789015) is NOT a contracted provider
+
+COORDINATION OF BENEFITS
+- PPO-2024 is primary for all members without other active insurance
+- Secondary claims require Explanation of Benefits from primary carrier

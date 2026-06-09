@@ -1,0 +1,32 @@
+ADJUDICATION RULES — Blue Shield Insurance
+Version: 2024.1
+Effective: January 1, 2024
+
+AUTO-APPROVAL THRESHOLDS
+- Claims with total billed amount of $25,000 or less are eligible for automatic approval if all clinical and administrative checks pass.
+- Claims between $25,001 and $75,000 must be flagged for human review regardless of check results.
+- Claims above $75,000 must be escalated to senior adjudicator and are never auto-approved.
+
+MANDATORY DENIAL CONDITIONS
+Any of the following require automatic denial:
+1. Clinical mismatch: The primary diagnosis does not clinically support the billed procedure code. This is a non-waivable denial.
+2. Missing prior authorization for a procedure that requires it, where no auth number is present in the claim.
+3. Procedure billed is explicitly excluded under the patient's benefit plan.
+4. Duplicate claim: Same patient, same procedure, same date of service as a previously processed claim.
+5. Provider is not credentialed or has been excluded from the network.
+
+HUMAN REVIEW TRIGGERS
+Route to human review when:
+- Claim amount exceeds $25,000 even if all checks pass.
+- Two or more WARN flags are raised by the intake agent.
+- Diagnosis code is a WARN-level match rather than a clear PASS or FAIL.
+- Provider has had more than 2 claims in the past 30 days for the same procedure.
+
+DISPUTE AND APPEAL
+- Denied claims may be appealed within 60 days of denial notice.
+- Human review decisions are final unless escalated by supervisor.
+
+GENERAL PRINCIPLES
+- All decisions must be based on the benefit plan in effect on the date of service.
+- Benefit plan PPO-2024 is the active plan for all claims dated January 1, 2024 onward.
+- When in doubt, route to human review rather than auto-approve or auto-deny.
