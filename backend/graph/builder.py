@@ -53,5 +53,4 @@ def _build_graph():
     checkpointer = MemorySaver()
     return builder.compile(
         checkpointer=checkpointer,
-        interrupt_before=["human_review"],
     )
