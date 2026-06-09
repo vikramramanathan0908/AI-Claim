@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
 import Console from "./pages/Console";
+import Dashboard from "./pages/Dashboard";
 import "./layout.css";
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
       <main className="site-main">
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/app" element={<Console />} />
         </Routes>
       </main>

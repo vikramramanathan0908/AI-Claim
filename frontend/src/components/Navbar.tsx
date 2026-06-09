@@ -19,6 +19,7 @@ function Logo() {
 export default function Navbar() {
   const { pathname } = useLocation();
   const onLanding = pathname === "/";
+  const onDashboard = pathname === "/dashboard";
 
   return (
     <nav className="nav">
@@ -27,6 +28,7 @@ export default function Navbar() {
 
         {onLanding && (
           <div className="nav-links">
+            <a href="#dashboard">Dashboard</a>
             <a href="#features">Features</a>
             <a href="#workflow">How it works</a>
             <a href="#security">Security</a>
@@ -35,19 +37,37 @@ export default function Navbar() {
 
         <div className="nav-actions">
           {onLanding ? (
-            <Link to="/app" className="nav-cta">
-              Launch Console
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
+            <>
+              <Link to="/dashboard" className="nav-cta">
+                Dashboard
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </Link>
+              <Link to="/app" className="nav-cta">
+                Launch Console
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </Link>
+            </>
           ) : (
-            <Link to="/" className="nav-ghost">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12H5M11 18l-6-6 6-6" />
-              </svg>
-              Back to site
-            </Link>
+            <>
+              {!onDashboard && (
+                <Link to="/dashboard" className="nav-ghost">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="7" height="9" rx="1" /><rect x="14" y="3" width="7" height="5" rx="1" /><rect x="14" y="12" width="7" height="9" rx="1" /><rect x="3" y="16" width="7" height="5" rx="1" />
+                  </svg>
+                  Dashboard
+                </Link>
+              )}
+              <Link to="/" className="nav-ghost">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M11 18l-6-6 6-6" />
+                </svg>
+                Back to site
+              </Link>
+            </>
           )}
         </div>
       </div>

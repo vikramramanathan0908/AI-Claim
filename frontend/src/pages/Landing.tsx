@@ -142,6 +142,24 @@ export default function Landing() {
         ))}
       </section>
 
+      {/* ── Dashboard CTA ── */}
+      <section className="section" id="dashboard">
+        <div className="section-head">
+          <div className="section-eyebrow">Operations</div>
+          <h2 className="section-title">A live view of every claim, in real time.</h2>
+          <p className="section-desc">
+            Track adjudication volume, approval and denial rates, payouts, and pipeline performance —
+            all from a single operational dashboard.
+          </p>
+        </div>
+        <div className="section-cta">
+          <Link to="/dashboard" className="btn-primary btn-lg">
+            Open the Dashboard
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </Link>
+        </div>
+      </section>
+
       {/* ── Features ── */}
       <section className="section" id="features">
         <div className="section-head">

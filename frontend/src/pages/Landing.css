@@ -150,6 +150,12 @@
   font-size: 1rem;
 }
 
+.section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;

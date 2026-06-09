@@ -20,6 +20,7 @@ export default function Footer() {
         <div className="footer-cols">
           <div className="footer-col">
             <span className="footer-col-title">Product</span>
+            <Link to="/#dashboard">Dashboard</Link>
             <a href="#features">Features</a>
             <a href="#workflow">How it works</a>
             <a href="#security">Security</a>
